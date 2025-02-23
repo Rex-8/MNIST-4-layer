@@ -1,6 +1,6 @@
 import numpy as np
-from model import NeuralNetwork
-from data_loader import load_processed_mnist
+from src.model import NeuralNetwork
+from src.data_loader import load_processed_mnist
 import os
 
 def train_network(nn, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=64, initial_lr=0.1, save_dir=r"outputs"):
@@ -12,7 +12,7 @@ def train_network(nn, X_train, Y_train, X_val, Y_val, epochs=50, batch_size=64, 
     patience = 5
     patience_counter = 0
     
-    print(f"Training for up to {epochs} epochs with batch size {batch_size}...")
+    print(f"Training for up to {epochs} epochs with batch size {batch_size}, {num_batches} batches...")
     for epoch in range(epochs):
         learning_rate = initial_lr * (0.9 ** epoch)
         indices = np.random.permutation(num_samples)
@@ -70,7 +70,7 @@ def evaluate_network(nn, X_test, Y_test, num_samples_to_display=5):
 
 if __name__ == "__main__":
     X_train_full, Y_train_full, X_test, Y_test = load_processed_mnist(processed_dir=r"data\processed")
-    num_train = int(0.9 * X_train_full.shape[0])
+    num_train = int(0.9 * X_train_full.shape[0])  
     indices = np.random.permutation(X_train_full.shape[0])
     train_idx, val_idx = indices[:num_train], indices[num_train:]
     X_train, Y_train = X_train_full[train_idx], Y_train_full[train_idx]
